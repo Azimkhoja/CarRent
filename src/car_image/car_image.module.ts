@@ -1,11 +1,11 @@
 import { Module } from "@nestjs/common";
 import { CarImageService } from "./car_image.service";
 import { CarImageController } from "./car_image.controller";
-import { TypeOrmModule } from "@nestjs/typeorm";
+import { SequelizeModule } from "@nestjs/sequelize";
 import { CarImage } from "./entities/car_image.entity";
 
 @Module({
-  imports: [TypeOrmModule.forFeature([CarImage])],
+  imports: [SequelizeModule.forFeature([CarImage])],
   controllers: [CarImageController],
   providers: [CarImageService],
 })

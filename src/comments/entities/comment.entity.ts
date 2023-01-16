@@ -1,23 +1,38 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Table, Column, DataType, Model } from "sequelize-typescript";
 
-@Entity("comments")
-export class Comment {
-  @PrimaryGeneratedColumn()
+@Table({ tableName: "comments", freezeTableName: true, timestamps: false })
+export class Comment extends Model<Comment> {
+  @Column({
+    type: DataType.INTEGER,
+    autoIncrement: true,
+    unique: true,
+    primaryKey: true,
+  })
   id: number;
   @ApiProperty({ example: "menga yoqdi yaxshi moshina ekan." })
-  @Column()
+  @Column({
+    type: DataType.STRING,
+  })
   comment: string;
   @ApiProperty({ example: 3 })
-  @Column()
+  @Column({
+    type: DataType.INTEGER,
+  })
   comment_rating: number;
   @ApiProperty({ example: "2022-01-13" })
-  @Column()
+  @Column({
+    type: DataType.DATE,
+  })
   date: Date;
   @ApiProperty({ example: 2 })
-  @Column()
+  @Column({
+    type: DataType.INTEGER,
+  })
   customer_id: number;
   @ApiProperty({ example: 3 })
-  @Column()
+  @Column({
+    type: DataType.INTEGER,
+  })
   car_id: number;
 }

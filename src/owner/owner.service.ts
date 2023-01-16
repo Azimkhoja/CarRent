@@ -1,43 +1,37 @@
 import { Injectable } from "@nestjs/common";
-import { InjectRepository } from "@nestjs/typeorm";
+import { InjectModel } from "@nestjs/sequelize";
 import { Owner } from "src/owner/entities/owner.entity";
-import { Repository } from "typeorm";
 import { CreateOwnerDto } from "./dto/create-owner.dto";
 import { UpdateOwnerDto } from "./dto/update-owner.dto";
 
 @Injectable()
 export class OwnerService {
   constructor(
-    @InjectRepository(Owner) private ownerRepository: Repository<Owner>
+    @InjectModel(Owner) private ownerRepository: typeof Owner
   ) {}
   async create(createOwnerDto: CreateOwnerDto) {
-    return this.ownerRepository.save(createOwnerDto)
+    return await this.ownerRepository.create(createOwnerDto);
   }
 
   async findAll() {
-    let owners = await this.ownerRepository.find();
-    if(owners.length != 0)
-      return owners
-    return "Empty table"
+    let owners = await this.ownerRepository.findAll({include: {all: true}});
+    if (owners.length != 0) return owners;
+    return "Empty table";
   }
 
   async findOne(id: number) {
-    let owner = await this.ownerRepository.findOneBy({id})
-    if(!owner)
-      return "not found by this id"
-    return owner
+    let owner = await this.ownerRepository.findOne({where: {id}, include: {all:true}});
+    if (!owner) return "not found by this id";
+    return owner;
   }
 
   async update(id: number, updateOwnerDto: UpdateOwnerDto) {
-    let find = await this.ownerRepository.findOneBy({id})
-    if(!find)
-      return "not found by this id"
-    return  await this.ownerRepository.update({id}, updateOwnerDto)
-    
+    let find = await this.ownerRepository.findOne({where: {id}});
+    if (!find) return "not found by this id";
+    return await this.ownerRepository.update(updateOwnerDto, {where: {id}});
   }
 
   async remove(id: number) {
-    return this.ownerRepository.delete({id
-    })
+    return this.ownerRepository.destroy({where: {id} });
   }
 }

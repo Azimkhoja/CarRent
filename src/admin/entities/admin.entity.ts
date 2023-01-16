@@ -1,32 +1,57 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Table, Column, DataType, Model } from "sequelize-typescript";
 
-@Entity("admins")
-export class Admin {
-  @PrimaryGeneratedColumn()
+@Table({ tableName: "admins", freezeTableName: true, timestamps: false })
+export class Admin extends Model<Admin> {
+  @Column({
+    type: DataType.INTEGER,
+    autoIncrement: true,
+    unique: true,
+    primaryKey: true,
+  })
   id: number;
   @ApiProperty({ example: "Habib" })
-  @Column()
+  @Column({
+    type: DataType.STRING,
+  })
   firstname: string;
   @ApiProperty({ example: "Magamedov" })
-  @Column()
+  @Column({
+    type: DataType.STRING,
+  })
   lastname: string;
   @ApiProperty({ example: "990014552" })
-  @Column()
+  @Column({
+    type: DataType.STRING,
+  })
   number: string;
   @ApiProperty({ example: "habibjan@gmail.com" })
-  @Column()
+  @Column({
+    type: DataType.STRING,
+  })
   email: string;
   @ApiProperty({ example: "habb98990" })
-  @Column()
+  @Column({
+    type: DataType.STRING,
+  })
   password: string;
   @ApiProperty({ example: "russia Dagistan " })
-  @Column()
+  @Column({
+    type: DataType.STRING,
+  })
   address: string;
   @ApiProperty({ example: false })
-  @Column()
+  @Column({
+    type: DataType.BOOLEAN,
+  })
   is_creator: boolean;
   @ApiProperty({ example: false })
-  @Column()
+  @Column({
+    type: DataType.BOOLEAN,
+  })
   is_active: boolean;
+  @Column({
+    type: DataType.STRING,
+  })
+  refresh_token: string;
 }

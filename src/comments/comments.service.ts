@@ -1,6 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
+import { InjectModel } from "@nestjs/sequelize";
 import { CreateCommentDto } from "./dto/create-comment.dto";
 import { UpdateCommentDto } from "./dto/update-comment.dto";
 import { Comment } from "./entities/comment.entity";
@@ -8,31 +7,38 @@ import { Comment } from "./entities/comment.entity";
 @Injectable()
 export class CommentsService {
   constructor(
-    @InjectRepository(Comment) private commentRepository: Repository<Comment>
+    @InjectModel(Comment) private commentRepository: typeof Comment
   ) {}
   async create(createCommentDto: CreateCommentDto) {
-    return this.commentRepository.save(createCommentDto);
+    return await this.commentRepository.create(createCommentDto);
   }
 
   async findAll() {
-    let comments = await this.commentRepository.find();
+    let comments = await this.commentRepository.findAll({
+      include: { all: true },
+    });
     if (comments.length != 0) return comments;
     return "Empty table";
   }
 
   async findOne(id: number) {
-    let comment = await this.commentRepository.findOneBy({ id });
+    let comment = await this.commentRepository.findOne({
+      where: { id },
+      include: { all: true },
+    });
     if (!comment) return "not found by this id";
     return comment;
   }
 
   async update(id: number, updateCommentDto: UpdateCommentDto) {
-    let find = await this.commentRepository.findOneBy({ id });
+    let find = await this.commentRepository.findOne({ where: { id } });
     if (!find) return "not found by this id";
-    return await this.commentRepository.update({ id }, updateCommentDto);
+    return await this.commentRepository.update(updateCommentDto, {
+      where: { id },
+    });
   }
 
   async remove(id: number) {
-    return this.commentRepository.delete({ id });
+    return this.commentRepository.destroy({ where: { id } });
   }
 }

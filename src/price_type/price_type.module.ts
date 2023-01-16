@@ -1,11 +1,11 @@
 import { Module } from "@nestjs/common";
 import { PriceTypeService } from "./price_type.service";
 import { PriceTypeController } from "./price_type.controller";
-import { TypeOrmModule } from "@nestjs/typeorm";
+import { SequelizeModule } from "@nestjs/sequelize";
 import { PriceType } from "./entities/price_type.entity";
 
 @Module({
-  imports: [TypeOrmModule.forFeature([PriceType])],
+  imports: [SequelizeModule.forFeature([PriceType])],
   controllers: [PriceTypeController],
   providers: [PriceTypeService],
 })

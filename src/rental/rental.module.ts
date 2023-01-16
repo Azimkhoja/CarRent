@@ -1,12 +1,12 @@
-import { Module } from '@nestjs/common';
-import { RentalService } from './rental.service';
-import { RentalController } from './rental.controller';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { Rental } from './entities/rental.entity';
+import { Module } from "@nestjs/common";
+import { RentalService } from "./rental.service";
+import { RentalController } from "./rental.controller";
+import { SequelizeModule } from "@nestjs/sequelize";
+import { Rental } from "./entities/rental.entity";
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Rental])],
+  imports: [SequelizeModule.forFeature([Rental])],
   controllers: [RentalController],
-  providers: [RentalService]
+  providers: [RentalService],
 })
 export class RentalModule {}

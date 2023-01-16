@@ -18,5 +18,5 @@ export class CreateCustomerDto {
   @ApiProperty({ example: false })
   is_active_account: boolean;
   @ApiProperty({ example: 2 })
-  admin_id: number;
+  adminId: number;
 }

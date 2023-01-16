@@ -1,17 +1,28 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Table, Column, DataType, Model } from "sequelize-typescript";
 
-@Entity("price_types")
-export class PriceType {
-  @PrimaryGeneratedColumn()
+@Table({ tableName: "price_types", freezeTableName: true, timestamps: false })
+export class PriceType extends Model<PriceType> {
+  @Column({
+    type: DataType.INTEGER,
+    autoIncrement: true,
+    unique: true,
+    primaryKey: true,
+  })
   id: number;
   @ApiProperty({ example: 300000 })
-  @Column()
+  @Column({
+    type: DataType.INTEGER,
+  })
   price_per_day: number;
   @ApiProperty({ example: 15000 })
-  @Column()
+  @Column({
+    type: DataType.INTEGER,
+  })
   price_per_hour: number;
   @ApiProperty({ example: 15000 })
-  @Column()
+  @Column({
+    type: DataType.INTEGER,
+  })
   lateness_fee: number;
 }

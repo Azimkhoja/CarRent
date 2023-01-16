@@ -1,39 +1,44 @@
 import { Injectable } from "@nestjs/common";
-import { InjectRepository } from "@nestjs/typeorm";
+import { InjectModel } from "@nestjs/sequelize";
 import { PriceType } from "src/price_type/entities/price_type.entity";
-import { Repository } from "typeorm";
 import { CreatePriceTypeDto } from "./dto/create-price_type.dto";
 import { UpdatePriceTypeDto } from "./dto/update-price_type.dto";
 
 @Injectable()
 export class PriceTypeService {
   constructor(
-    @InjectRepository(PriceType)
-    private price_typeRepository: Repository<PriceType>
+    @InjectModel(PriceType) private price_typeRepository: typeof PriceType
   ) {}
-  async create(createPrice_typeDto: CreatePriceTypeDto) {
-    return this.price_typeRepository.save(createPrice_typeDto);
+  async create(createPriceTypeDto: CreatePriceTypeDto) {
+    return await this.price_typeRepository.create(createPriceTypeDto);
   }
 
   async findAll() {
-    let price_types = await this.price_typeRepository.find();
+    let price_types = await this.price_typeRepository.findAll({
+      include: { all: true },
+    });
     if (price_types.length != 0) return price_types;
     return "Empty table";
   }
 
   async findOne(id: number) {
-    let price_type = await this.price_typeRepository.findOneBy({ id });
+    let price_type = await this.price_typeRepository.findOne({
+      where: { id },
+      include: { all: true },
+    });
     if (!price_type) return "not found by this id";
     return price_type;
   }
 
-  async update(id: number, updatePrice_typeDto: UpdatePriceTypeDto) {
-    let find = await this.price_typeRepository.findOneBy({ id });
+  async update(id: number, updatePriceTypeDto: UpdatePriceTypeDto) {
+    let find = await this.price_typeRepository.findOne({ where: { id } });
     if (!find) return "not found by this id";
-    return await this.price_typeRepository.update({ id }, updatePrice_typeDto);
+    return await this.price_typeRepository.update(updatePriceTypeDto, {
+      where: { id },
+    });
   }
 
   async remove(id: number) {
-    return this.price_typeRepository.delete({ id });
+    return this.price_typeRepository.destroy({ where: { id } });
   }
 }

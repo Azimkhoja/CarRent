@@ -1,11 +1,11 @@
 import { Module } from "@nestjs/common";
 import { OwnerService } from "./owner.service";
 import { OwnerController } from "./owner.controller";
-import { TypeOrmModule } from "@nestjs/typeorm";
+import { SequelizeModule } from "@nestjs/sequelize";
 import { Owner } from "src/owner/entities/owner.entity";
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Owner])],
+  imports: [SequelizeModule.forFeature([Owner])],
 
   controllers: [OwnerController],
   providers: [OwnerService],

@@ -1,11 +1,19 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { RentalService } from './rental.service';
-import { CreateRentalDto } from './dto/create-rental.dto';
-import { UpdateRentalDto } from './dto/update-rental.dto';
-import { ApiTags } from '@nestjs/swagger';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from "@nestjs/common";
+import { RentalService } from "./rental.service";
+import { CreateRentalDto } from "./dto/create-rental.dto";
+import { UpdateRentalDto } from "./dto/update-rental.dto";
+import { ApiTags } from "@nestjs/swagger";
 
 @ApiTags("Rentals")
-@Controller('rental')
+@Controller("rental")
 export class RentalController {
   constructor(private readonly rentalService: RentalService) {}
 
@@ -19,18 +27,18 @@ export class RentalController {
     return this.rentalService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
+  @Get(":id")
+  findOne(@Param("id") id: string) {
     return this.rentalService.findOne(+id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateRentalDto: UpdateRentalDto) {
+  @Patch(":id")
+  update(@Param("id") id: string, @Body() updateRentalDto: UpdateRentalDto) {
     return this.rentalService.update(+id, updateRentalDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
+  @Delete(":id")
+  remove(@Param("id") id: string) {
     return this.rentalService.remove(+id);
   }
 }
