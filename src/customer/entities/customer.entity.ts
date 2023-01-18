@@ -26,6 +26,13 @@ export class Customer extends Model<Customer> {
     type: DataType.STRING,
   })
   address: string;
+  @ApiProperty({ example: "AG4586321" })
+  @Column({
+    unique: true,
+    allowNull: false
+  })
+  passport: string
+
   @ApiProperty({ example: "986642121" })
   @Column({
     unique: true,
@@ -47,7 +54,7 @@ export class Customer extends Model<Customer> {
     type: DataType.STRING,
     unique: true,
   })
-  username: string;
+  email: string;
   @ApiProperty({ example: "mykey334" })
   @Column({
     type: DataType.STRING,
