@@ -39,6 +39,7 @@ export class CarImageService {
   }
 
   async remove(id: number) {
-    return this.car_imageRepository.destroy({ where: { id } });
+    const car_image = await this.car_imageRepository.destroy({ where: { id } });
+    if (car_image != 0) return "Deleted";
   }
 }

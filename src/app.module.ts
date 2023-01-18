@@ -11,6 +11,7 @@ import { CommentsModule } from "./comments/comments.module";
 import { CarImageModule } from "./car_image/car_image.module";
 import { FuelTypeModule } from "./fuel_type/fuel_type.module";
 import { SequelizeModule } from "@nestjs/sequelize";
+import { TokenModule } from './token/token.module';
 
 @Module({
   imports: [
@@ -38,6 +39,7 @@ import { SequelizeModule } from "@nestjs/sequelize";
     CommentsModule,
     CarImageModule,
     FuelTypeModule,
+    TokenModule,
   ],
   controllers: [],
   providers: [],

@@ -1,5 +1,13 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { Model, Column, DataType, Table } from "sequelize-typescript";
+import {
+  Model,
+  Column,
+  DataType,
+  Table,
+  ForeignKey,
+  BelongsTo,
+} from "sequelize-typescript";
+import { Admin } from "src/admin/entities/admin.entity";
 
 @Table({ tableName: "customers", freezeTableName: true, timestamps: false })
 export class Customer extends Model<Customer> {
@@ -29,9 +37,9 @@ export class Customer extends Model<Customer> {
   @ApiProperty({ example: "AG4586321" })
   @Column({
     unique: true,
-    allowNull: false
+    allowNull: false,
   })
-  passport: string
+  passport: string;
 
   @ApiProperty({ example: "986642121" })
   @Column({
@@ -64,8 +72,9 @@ export class Customer extends Model<Customer> {
   @Column({
     type: DataType.BOOLEAN,
   })
-  is_active_account: boolean;
+  is_active: boolean;
   @ApiProperty({ example: 3 })
+  @ForeignKey(() => Admin)
   @Column({
     type: DataType.INTEGER,
   })
@@ -74,4 +83,7 @@ export class Customer extends Model<Customer> {
     type: DataType.STRING,
   })
   refresh_token: string;
+
+  @BelongsTo(() => Admin)
+  admin: Admin;
 }

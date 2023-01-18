@@ -33,6 +33,8 @@ export class CarService {
   }
 
   async remove(id: number) {
-    return this.carRepository.destroy({ where: { id } });
+    const car = await this.carRepository.destroy({ where: { id } });
+    if (car != 0) return "Deleted";
+    return "Car not fount by this id";
   }
 }

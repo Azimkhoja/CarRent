@@ -39,6 +39,9 @@ export class PriceTypeService {
   }
 
   async remove(id: number) {
-    return this.price_typeRepository.destroy({ where: { id } });
+    const price_type = await this.price_typeRepository.destroy({
+      where: { id },
+    });
+    if (price_type != 0) return "Deleted";
   }
 }

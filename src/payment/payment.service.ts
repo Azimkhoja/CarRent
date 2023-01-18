@@ -39,6 +39,7 @@ export class PaymentService {
   }
 
   async remove(id: number) {
-    return this.paymentRepository.destroy({ where: { id } });
+    const payment = await this.paymentRepository.destroy({ where: { id } });
+    if (payment != 0) return "Deleted";
   }
 }

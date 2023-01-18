@@ -39,6 +39,7 @@ export class FuelTypeService {
   }
 
   async remove(id: number) {
-    return this.fuel_typeRepository.destroy({ where: { id } });
+    const fuel_type = await this.fuel_typeRepository.destroy({ where: { id } });
+    if (fuel_type != 0) return "Deleted";
   }
 }

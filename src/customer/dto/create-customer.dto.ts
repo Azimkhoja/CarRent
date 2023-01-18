@@ -20,7 +20,7 @@ export class CreateCustomerDto {
   @ApiProperty({ example: "kom3727" })
   password: string;
   @ApiProperty({ example: false })
-  is_active_account: boolean;
+  is_active: boolean;
   @ApiProperty({ example: 2 })
   admin_id: number;
 }

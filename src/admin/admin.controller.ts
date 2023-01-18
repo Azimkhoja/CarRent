@@ -17,13 +17,13 @@ import { Admin } from "./entities/admin.entity";
 import { Response } from "express";
 import { LoginAdminDto } from "./dto/login.dto";
 import { CreatorAdminGuard } from "src/guards/creator-admin.guard";
-
+import { AdminSelfGuard } from "src/guards/admin-self.guard";
 
 @ApiTags("Admins")
 @Controller("admin")
 export class AdminController {
   constructor(private readonly adminService: AdminService) {}
-  @Post('add')
+  @Post("add")
   @UseGuards(CreatorAdminGuard)
   create(@Body() createAdminDto: CreateAdminDto) {
     return this.adminService.create(createAdminDto);
@@ -34,17 +34,20 @@ export class AdminController {
   registrate(
     @Body() createAdminDto: CreateAdminDto,
     @Res({ passthrough: true }) res: Response
-    ) {
-      return this.adminService.registrate(createAdminDto, res);
-    }
+  ) {
+    return this.adminService.registrate(createAdminDto, res);
+  }
 
   @ApiOperation({ summary: "login Admin" })
   @ApiResponse({ status: 200, type: Admin })
   @Post("login")
-  login(@Body() loginDto: LoginAdminDto, @Res({ passthrough: true }) res: Response) {
+  login(
+    @Body() loginDto: LoginAdminDto,
+    @Res({ passthrough: true }) res: Response
+  ) {
     return this.adminService.login(loginDto, res);
-    }   
-    
+  }
+
   @ApiOperation({ summary: "Barcha Adminslar ro'yxatini olish" })
   @ApiResponse({ status: 200, type: [Admin] })
   @Get()
@@ -54,7 +57,8 @@ export class AdminController {
   }
   @ApiOperation({ summary: "Admin logout" })
   @ApiResponse({ status: 200, type: Admin })
-  @Post('logout/:id')
+  @Post("logout/:id")
+  @UseGuards(AdminSelfGuard)
   logout(@Param("id") id: string, @Res({ passthrough: true }) res: Response) {
     return this.adminService.logout(+id, res);
   }
@@ -71,13 +75,15 @@ export class AdminController {
   update(@Param("id") id: string, @Body() updateAdminDto: UpdateAdminDto) {
     return this.adminService.update(+id, updateAdminDto);
   }
-  
-  @ApiOperation({ summary: "Adminni o'chirish" })
+
+  @ApiOperation({
+    summary: "Adminni o'chirish",
+    description: "Admin faqat ozini ochirishi mumkin.",
+  })
   @ApiResponse({ status: 200, type: Admin })
   @Delete(":id")
-  @UseGuards(CreatorAdminGuard)
+  @UseGuards(AdminSelfGuard)
   remove(@Param("id") id: string) {
     return this.adminService.remove(+id);
   }
 }
-

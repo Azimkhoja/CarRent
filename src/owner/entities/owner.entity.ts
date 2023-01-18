@@ -1,5 +1,13 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { Table, Column, DataType, Model } from "sequelize-typescript";
+import {
+  Table,
+  Column,
+  DataType,
+  Model,
+  ForeignKey,
+  BelongsTo,
+} from "sequelize-typescript";
+import { Admin } from "src/admin/entities/admin.entity";
 
 @Table({ tableName: "owners", freezeTableName: true, timestamps: false })
 export class Owner extends Model<Owner> {
@@ -25,7 +33,7 @@ export class Owner extends Model<Owner> {
     type: DataType.STRING,
   })
   address: string;
-  @ApiProperty({ example: '998954482525' })
+  @ApiProperty({ example: "998954482525" })
   @Column({
     type: DataType.STRING,
   })
@@ -35,12 +43,12 @@ export class Owner extends Model<Owner> {
     type: DataType.STRING,
   })
   image_link: string;
-  @ApiProperty({ example: "Joma" })
+  @ApiProperty({ example: "jamol@gmail.com" })
   @Column({
     type: DataType.STRING,
-    unique: true
+    unique: true,
   })
-  username: string;
+  email: string;
   @ApiProperty({ example: "pass123" })
   @Column({
     type: DataType.STRING,
@@ -52,6 +60,7 @@ export class Owner extends Model<Owner> {
   })
   is_active: boolean;
   @ApiProperty({ example: 3 })
+  @ForeignKey(() => Admin)
   @Column({
     type: DataType.INTEGER,
   })
@@ -59,5 +68,8 @@ export class Owner extends Model<Owner> {
   @Column({
     type: DataType.STRING,
   })
-  refresh_token: string  
+  refresh_token: string;
+
+  @BelongsTo(() => Admin)
+  admin: Admin;
 }

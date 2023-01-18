@@ -39,11 +39,11 @@ export class CustomerService {
       ...createCustomerDto,
       password: hashedPassword,
     });
-    customer.is_active_account = true;
+    customer.is_active = true;
     customer.save();
     const tokens = await this.tokenService.getTokens(
       customer.id,
-      customer.is_active_account,
+      customer.is_active,
       customer.email,
       "customer"
     );
@@ -77,7 +77,7 @@ export class CustomerService {
 
     const tokens = await this.tokenService.getTokens(
       customer.id,
-      customer.is_active_account,
+      customer.is_active,
       customer.email,
       "customer"
     );
@@ -100,7 +100,7 @@ export class CustomerService {
 
   async logoutCustomer(id: number, res: Response) {
     const admin = await this.customerRepository.update(
-      { refresh_token: null, is_active_account: false },
+      { refresh_token: null, is_active: false },
       { where: { id: +id } }
     );
 

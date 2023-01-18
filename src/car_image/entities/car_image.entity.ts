@@ -1,5 +1,13 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { Table, Column, DataType, Model } from "sequelize-typescript";
+import {
+  Table,
+  Column,
+  DataType,
+  Model,
+  ForeignKey,
+  BelongsTo,
+} from "sequelize-typescript";
+import { Car } from "src/car/entities/car.entity";
 
 @Table({ tableName: "car_images", freezeTableName: true, timestamps: false })
 export class CarImage extends Model<CarImage> {
@@ -21,8 +29,12 @@ export class CarImage extends Model<CarImage> {
   })
   image_desc: string;
   @ApiProperty({ example: 3 })
+  @ForeignKey(() => Car)
   @Column({
     type: DataType.INTEGER,
   })
   car_id: number;
+
+  @BelongsTo(() => Car)
+  car: Car[];
 }

@@ -10,11 +10,8 @@ import { CreateAdminDto } from "./dto/create-admin.dto";
 import { LoginAdminDto } from "./dto/login.dto";
 import { UpdateAdminDto } from "./dto/update-admin.dto";
 import * as bcrypt from "bcryptjs";
-import { JwtPayload } from "jsonwebtoken";
-import { JwtService } from "@nestjs/jwt";
 import { Response } from "express";
 import { TokenService } from "src/token/token.service";
-import { where } from "sequelize";
 
 @Injectable()
 export class AdminService {
@@ -69,7 +66,7 @@ export class AdminService {
       admin.email,
       "admin"
     );
-    await this.tokenService.updateRefreshToken(
+    const newAdmin = await this.tokenService.updateRefreshToken(
       admin.id,
       tokens.refresh_token,
       this.adminRepository
@@ -79,7 +76,7 @@ export class AdminService {
       httpOnly: true,
     });
     return {
-      ...adminDto,
+      newAdmin,
       access_token: tokens.access_token,
       refresh_token: tokens.refresh_token,
     };
@@ -128,7 +125,7 @@ export class AdminService {
     return "Empty table";
   }
   // ===================================== findOne ====================================
-  
+
   async findOne(id: number) {
     let admin = await this.adminRepository.findOne({
       where: { id },

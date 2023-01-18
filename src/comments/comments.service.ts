@@ -39,6 +39,7 @@ export class CommentsService {
   }
 
   async remove(id: number) {
-    return this.commentRepository.destroy({ where: { id } });
+    const comment = await this.commentRepository.destroy({ where: { id } });
+    if (comment != 0) return "Deleted";
   }
 }

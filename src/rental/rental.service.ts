@@ -37,6 +37,7 @@ export class RentalService {
   }
 
   async remove(id: number) {
-    return this.rentalRepository.destroy({ where: { id } });
+    const rental = await this.rentalRepository.destroy({ where: { id } });
+    if (rental != 0) return "Deleted";
   }
 }

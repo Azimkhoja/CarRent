@@ -11,8 +11,8 @@ export class CreateOwnerDto {
   contact_number: string;
   @ApiProperty({ example: "'./rasmlar/user/image.jpg" })
   image_link: string;
-  @ApiProperty({ example: "jamooliy" })
-  username: string;
+  @ApiProperty({ example: "jamooliy@gmail.com" })
+  email: string;
   @ApiProperty({ example: 775452 })
   password: string;
   @ApiProperty({ example: true })

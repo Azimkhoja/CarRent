@@ -19,6 +19,8 @@ export class CreateCarDto {
   owner_id: number;
   @ApiProperty({ example: true })
   is_automate: boolean;
+  @ApiProperty({ example: false })
+  is_busy: boolean;
   @ApiProperty({ example: 3 })
   price_type_id: number;
 }
