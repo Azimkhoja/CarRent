@@ -7,19 +7,22 @@ import {
   Param,
   Delete,
   Res,
+  ForbiddenException,
 } from "@nestjs/common";
 import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
-import { Response } from "express";
 import { CustomerService } from "./customer.service";
 import { CreateCustomerDto } from "./dto/create-customer.dto";
 import { LoginCustomerDto } from "./dto/login-customer.dto";
 import { UpdateCustomerDto } from "./dto/update-customer.dto";
 import { Customer } from "./entities/customer.entity";
+import { Response } from "express";
 
 @ApiTags("Customers")
 @Controller("customer")
 export class CustomerController {
-  constructor(private readonly customerService: CustomerService) {}
+  constructor(
+     private readonly customerService: CustomerService
+  ) {}
 
   @Post()
   create(@Body() createCustomerDto: CreateCustomerDto) {
@@ -35,9 +38,20 @@ export class CustomerController {
   @ApiOperation({ summary: "login Admin" })
   @ApiResponse({ status: 200, type: Customer })
   @Post("login")
-  login(@Body() loginDto: LoginCustomerDto, @Res({ passthrough: true }) res: Response) {
-    return this.customerService.login(loginDto, res);
-    }   
+  loginCustomer(
+    @Body() loginDto: LoginCustomerDto,
+    @Res({ passthrough: true }) res: Response
+  ) {
+    return this.customerService.loginCustomer(loginDto, res);
+  }
+  // ===================================== logout ====================================
+
+  @ApiOperation({ summary: "Admin logout" })
+  @ApiResponse({ status: 200, type: Customer })
+  @Post('logout/:id')
+  logout(@Param("id") id: string, @Res({ passthrough: true }) res: Response) {
+    return this.customerService.logoutCustomer(+id, res);
+  }
   @Get()
   findAll() {
     return this.customerService.findAll();
@@ -49,7 +63,6 @@ export class CustomerController {
   }
 
   @Patch(":id")
-  
   update(
     @Param("id") id: string,
     @Body() updateCustomerDto: UpdateCustomerDto

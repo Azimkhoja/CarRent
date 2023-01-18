@@ -1,4 +1,9 @@
-import { ForbiddenException, HttpException, HttpStatus, Injectable } from "@nestjs/common";
+import {
+  ForbiddenException,
+  HttpException,
+  HttpStatus,
+  Injectable,
+} from "@nestjs/common";
 import { InjectModel } from "@nestjs/sequelize";
 import { Customer } from "src/customer/entities/customer.entity";
 import { CreateCustomerDto } from "./dto/create-customer.dto";
@@ -14,7 +19,7 @@ export class CustomerService {
     @InjectModel(Customer) private customerRepository: typeof Customer,
     private tokenService: TokenService
   ) {}
-  
+
   async create(createCustomerDto: CreateCustomerDto) {
     return await this.customerRepository.create(createCustomerDto);
   }
@@ -58,7 +63,7 @@ export class CustomerService {
       refresh_token: tokens.refresh_token,
     };
   }
-  async login(loginAdminDto: LoginCustomerDto, res: Response) {
+  async loginCustomer(loginAdminDto: LoginCustomerDto, res: Response) {
     const { email, password } = loginAdminDto;
     const customer = await this.customerRepository.findOne({
       where: { email },
