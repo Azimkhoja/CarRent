@@ -31,9 +31,9 @@ export class CreatorAdminGuard implements CanActivate {
       }
 
       const admin = this.jwtService.verify(token, {
-        secret: process.env.ACCESS_TOKEN_KEY,
+        secret: process.env.ACCESS_TOKEN_KEY || "MyAccessKey",
       });
-      
+
       if (admin.grade == "admin" && admin.is_creator) {
         return true;
       }

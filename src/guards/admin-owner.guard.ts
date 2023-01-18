@@ -32,15 +32,15 @@ export class AdminOwnerGuard implements CanActivate {
         });
       }
       const customer = this.jwtService.verify(token, {
-        secret: process.env.ACCESS_TOKEN_KEY,
+        secret: process.env.ACCESS_TOKEN_KEY || "MyAccessKey",
       });
       console.log(customer.grade);
 
       if (["admin", "owner"].includes(customer.grade)) {
-        if(customer.is_active){
+        if (customer.is_active) {
           return true;
         }
-        throw new UnauthorizedException({message: "you are not allowed"})
+        throw new UnauthorizedException({ message: "you are not allowed" });
       }
       throw new UnauthorizedException({ message: "Access denied" });
     } catch (error) {

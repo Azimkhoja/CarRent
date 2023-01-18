@@ -31,15 +31,19 @@ export class AdminGuard implements CanActivate {
       }
 
       const admin = this.jwtService.verify(token, {
-        publicKey: process.env.ACCESS_TOKEN_KEY,
+        publicKey: process.env.ACCESS_TOKEN_KEY || "MyAccessKey",
       });
 
       if (admin.is_creator) {
         return true;
       }
-      if (admin.is_active && admin.id == req.params.id && admin.grade == 'admin') {
+      if (
+        admin.is_active &&
+        admin.id == req.params.id &&
+        admin.grade == "admin"
+      ) {
         return true;
-      }     
+      }
       if (!admin.is_active) {
         throw new UnauthorizedException({
           message: "You are not allowed",

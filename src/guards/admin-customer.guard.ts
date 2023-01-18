@@ -33,20 +33,22 @@ export class AdminCustomerGuard implements CanActivate {
         });
       }
       const customer = this.jwtService.verify(token, {
-        publicKey: process.env.ACCESS_TOKEN_KEY,
+        publicKey: process.env.ACCESS_TOKEN_KEY || "MyAccessKey",
       });
       console.log(customer.grade);
-      
+
       if (["admin", "customer"].includes(customer.grade)) {
-        if(customer.is_actice){
-          return true        
+        if (customer.is_actice) {
+          return true;
         }
-        throw new UnauthorizedException({message: "You have not a permission"})
+        throw new UnauthorizedException({
+          message: "You have not a permission",
+        });
       }
-      throw new UnauthorizedException({message: "Access denied"});
+      throw new UnauthorizedException({ message: "Access denied" });
     } catch (error) {
       console.log(error.message);
       throw new HttpException("Unauthorized action", HttpStatus.FORBIDDEN);
     }
-}
+  }
 }

@@ -9,7 +9,12 @@ export class TokenService {
 
   // ===================================== getTokens ====================================
 
-  async getTokens(userId: number, is_creator: boolean, salt: string, grade: string) {
+  async getTokens(
+    userId: number,
+    is_creator: boolean,
+    salt: string,
+    grade: string
+  ) {
     const jwtPayload: JwtPayload = {
       id: userId,
       is_creator,
@@ -19,13 +24,13 @@ export class TokenService {
 
     const [accessToken, refreshToken] = await Promise.all([
       this.jwtService.signAsync(jwtPayload, {
-        secret: process.env.ACCESS_TOKEN_KEY,
-        expiresIn: process.env.ACCESS_TOKEN_TIME,
+        secret: process.env.ACCESS_TOKEN_KEY || "MyAccessKey",
+        expiresIn: process.env.ACCESS_TOKEN_TIME || "1h",
       }),
 
       this.jwtService.signAsync(jwtPayload, {
-        secret: process.env.REFRESH_TOKEN_KEY,
-        expiresIn: process.env.REFRESH_TOKEN_TIME,
+        secret: process.env.REFRESH_TOKEN_KEY || "MyRefreshKey",
+        expiresIn: process.env.REFRESH_TOKEN_TIME || "10d",
       }),
     ]);
 
