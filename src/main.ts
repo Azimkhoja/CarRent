@@ -15,7 +15,7 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, configure);
   SwaggerModule.setup("/api/docs", app, document);
 
-  const port = process.env.PORT
+  const port = process.env.PORT || 5000;
   app.use(cookieParser());
   await app.listen(port, () => {
     console.log(`server running on port http://localhost:${port}/api/docs`);
