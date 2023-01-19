@@ -11,7 +11,7 @@ import { CommentsModule } from "./comments/comments.module";
 import { CarImageModule } from "./car_image/car_image.module";
 import { FuelTypeModule } from "./fuel_type/fuel_type.module";
 import { SequelizeModule } from "@nestjs/sequelize";
-import { TokenModule } from './token/token.module';
+import { TokenModule } from "./token/token.module";
 
 @Module({
   imports: [
@@ -20,11 +20,11 @@ import { TokenModule } from './token/token.module';
     }),
     SequelizeModule.forRoot({
       dialect: "postgres",
-      host: process.env.POSTGRES_HOST,
-      port: Number(process.env.POSTGRES_PORT),
-      username: process.env.POSTGRES_USER,
-      password: process.env.POSTGRES_PASSWORD,
-      database: process.env.POSTGRES_DB,
+      host: process.env.POSTGRES_HOST || "localhost",
+      port: Number(process.env.POSTGRES_PORT) || 5432,
+      username: process.env.POSTGRES_USER || "postgres",
+      password: process.env.POSTGRES_PASSWORD || "myParol",
+      database: process.env.POSTGRES_DB || "rent_car"w,
       models: [__dirname + "dist/**/*.entity{.ts, .js}"],
       autoLoadModels: true,
       logging: false,
