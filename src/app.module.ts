@@ -24,7 +24,7 @@ import { TokenModule } from "./token/token.module";
       port: Number(process.env.POSTGRES_PORT) || 5432,
       username: process.env.POSTGRES_USER || "postgres",
       password: process.env.POSTGRES_PASSWORD || "myParol",
-      database: process.env.POSTGRES_DB || "rent_car"w,
+      database: process.env.POSTGRES_DB || "rent_car",
       models: [__dirname + "dist/**/*.entity{.ts, .js}"],
       autoLoadModels: true,
       logging: false,
